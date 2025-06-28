@@ -1,14 +1,25 @@
-import { Counter } from './components/Counter'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Layout } from './components/layout/Layout';
+import { Dashboard } from './pages/Dashboard';
+import { Users } from './pages/Users';
+import { Reports } from './pages/Reports';
+import { Analytics } from './pages/Analytics';
+import { Settings } from './pages/Settings';
 
 function App() {
   return (
-    <div className="App">
-      <h1>React + Vite + Vitest Demo</h1>
-      <p>This is a simple counter component with tests!</p>
-      <Counter />
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
