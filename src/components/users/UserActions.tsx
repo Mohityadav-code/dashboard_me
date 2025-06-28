@@ -11,6 +11,7 @@ interface UserActionsProps {
 export const UserActions: React.FC<UserActionsProps> = ({
   user
 }) => {
+  console.log("user",user)
   return (
     <div className="relative">
       <Tooltip content="Mock functionality - User actions menu" position="left">
