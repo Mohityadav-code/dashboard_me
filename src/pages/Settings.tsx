@@ -40,23 +40,25 @@ export const Settings: React.FC = () => {
         <Input label="Email" placeholder="john@example.com" type="email" />
         <Input label="Phone" placeholder="+1 (555) 123-4567" />
       </div>
-      <Tooltip content="Mock feature - Save profile changes">
-        <Button>Save Changes</Button>
-      </Tooltip>
+      <div className="mt-6">
+        <Tooltip content="Mock feature - Save profile changes">
+          <Button>Save Changes</Button>
+        </Tooltip>
+      </div>
     </SettingsSection>
   );
 
   const renderSecurityTab = () => (
     <SettingsSection title="Security Settings">
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3 sm:gap-4">
         <Tooltip content="Mock feature - Change password">
-          <Button variant="outline">Change Password</Button>
+          <Button variant="outline" className="whitespace-nowrap">Change Password</Button>
         </Tooltip>
         <Tooltip content="Mock feature - Enable 2FA">
-          <Button variant="outline">Enable Two-Factor Authentication</Button>
+          <Button variant="outline" className="whitespace-nowrap">Enable Two-Factor Authentication</Button>
         </Tooltip>
         <Tooltip content="Mock feature - View login history">
-          <Button variant="outline">View Login History</Button>
+          <Button variant="outline" className="whitespace-nowrap">View Login History</Button>
         </Tooltip>
       </div>
     </SettingsSection>
@@ -95,13 +97,13 @@ export const Settings: React.FC = () => {
           options={themeOptions}
           value={theme}
           onChange={(e) => setTheme(e.target.value as any)}
-          className="w-64"
+          className="w-full sm:w-64"
         />
         <Tooltip content="Mock feature - Language selection">
           <Select
             label="Language"
             options={languageOptions}
-            className="w-64"
+            className="w-full sm:w-64"
           />
         </Tooltip>
       </div>
@@ -110,12 +112,12 @@ export const Settings: React.FC = () => {
 
   const renderDataTab = () => (
     <SettingsSection title="Data & Privacy">
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3 sm:gap-4">
         <Tooltip content="Mock feature - Export data">
-          <Button variant="outline">Export My Data</Button>
+          <Button variant="outline" className="whitespace-nowrap">Export My Data</Button>
         </Tooltip>
         <Tooltip content="Mock feature - Delete account">
-          <Button variant="outline">Delete Account</Button>
+          <Button variant="outline" className="whitespace-nowrap">Delete Account</Button>
         </Tooltip>
       </div>
     </SettingsSection>
@@ -123,12 +125,12 @@ export const Settings: React.FC = () => {
 
   const renderRegionalTab = () => (
     <SettingsSection title="Regional Settings">
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3 sm:gap-4">
         <Tooltip content="Mock feature - Timezone selection">
-          <Button variant="outline">Change Timezone</Button>
+          <Button variant="outline" className="whitespace-nowrap">Change Timezone</Button>
         </Tooltip>
         <Tooltip content="Mock feature - Currency selection">
-          <Button variant="outline">Change Currency</Button>
+          <Button variant="outline" className="whitespace-nowrap">Change Currency</Button>
         </Tooltip>
       </div>
     </SettingsSection>
@@ -174,7 +176,7 @@ export const Settings: React.FC = () => {
       <div className="bg-white dark:bg-secondary-800 rounded-xl shadow-sm border border-secondary-200 dark:border-secondary-700">
         {/* Tabs */}
         <div className="border-b border-secondary-200 dark:border-secondary-700">
-          <nav className="flex flex-wrap gap-1 px-6">
+          <nav className="flex flex-wrap gap-1 px-4 sm:px-6 overflow-x-auto">
             {tabs.map((tab) => (
               <SettingsTab
                 key={tab.id}
@@ -189,7 +191,7 @@ export const Settings: React.FC = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {renderTabContent()}
         </div>
       </div>
