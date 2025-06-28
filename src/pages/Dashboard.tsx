@@ -3,11 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { Users, UserCheck, UserPlus, TrendingUp } from 'lucide-react';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { useDashboardStats } from '../hooks/useDashboardStats';
-import { Tooltip } from '../components/ui/Tooltip';
-
-interface DashboardProps {
-  onNavigate: (path: string) => void;
-}
+ 
 
 export const Dashboard: React.FC = () => {
   const { onNavigate } = useOutletContext<{ onNavigate: (path: string) => void }>();

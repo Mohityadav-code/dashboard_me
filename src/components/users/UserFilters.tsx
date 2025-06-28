@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, SlidersHorizontal, RefreshCw } from 'lucide-react';
+import React  from 'react';
+import { Search, RefreshCw } from 'lucide-react';
 import type { FilterOptions } from '../../types';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';

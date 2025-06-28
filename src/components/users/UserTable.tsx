@@ -1,7 +1,6 @@
 import React from 'react';
 import type { User, FilterOptions } from '../../types';
 import { Card } from '../ui/Card';
-import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { Badge } from '../ui/Badge';
 import { UserActions } from './UserActions';
 import { UserTableSkeleton } from '../ui/Skeleton';
@@ -9,7 +8,6 @@ import {
   ChevronUp, 
   ChevronDown, 
   Mail, 
-  Phone 
 } from 'lucide-react';
 
 interface UserTableProps {

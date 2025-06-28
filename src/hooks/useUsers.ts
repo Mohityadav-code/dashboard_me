@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { User, UsersResponse, FilterOptions } from '../types';
+import type { User, FilterOptions } from '../types';
 import { apiService } from '../services/api';
 
 export const useUsers = () => {

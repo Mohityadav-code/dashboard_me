@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoreHorizontal, Edit, Trash2, Eye, UserCheck, UserX, Mail } from 'lucide-react';
+import { MoreHorizontal, Edit, Trash2, Eye, UserCheck, Mail } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Tooltip } from '../ui/Tooltip';
 import type { User } from '../../types';
@@ -15,11 +15,6 @@ interface UserActionsProps {
 
 export const UserActions: React.FC<UserActionsProps> = ({
   user,
-  onEdit,
-  onDelete,
-  onView,
-  onToggleStatus,
-  onSendEmail
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 

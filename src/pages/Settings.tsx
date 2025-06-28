@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, User, Shield, Bell, Palette, Database, Globe } from 'lucide-react';
+import {  User, Shield, Bell, Palette, Database, Globe } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Tooltip } from '../components/ui/Tooltip';

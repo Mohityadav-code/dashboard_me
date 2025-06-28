@@ -6,7 +6,6 @@ import {
   FileText, 
   Settings, 
   BarChart3,
-  Menu,
   X
 } from 'lucide-react';
 

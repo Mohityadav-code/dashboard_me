@@ -1,12 +1,11 @@
 import React from 'react';
-import { DivideIcon as LucideIcon } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Skeleton } from '../ui/Skeleton';
 
 interface StatsCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   change?: {
     value: number;
     type: 'increase' | 'decrease';
