@@ -32,30 +32,6 @@ export const UserTable: React.FC<UserTableProps> = ({
     onFiltersChange({ sortBy, sortOrder: newSortOrder });
   };
 
-  const handleUserAction = (action: string, user: User) => {
-    console.log(`${action} action for user:`, user);
-    // In a real app, these would trigger actual API calls or modals
-    switch (action) {
-      case 'view':
-        alert(`Viewing details for ${user.first_name} ${user.last_name}`);
-        break;
-      case 'edit':
-        alert(`Editing ${user.first_name} ${user.last_name}`);
-        break;
-      case 'delete':
-        if (confirm(`Are you sure you want to delete ${user.first_name} ${user.last_name}?`)) {
-          alert(`Deleted ${user.first_name} ${user.last_name}`);
-        }
-        break;
-      case 'email':
-        alert(`Sending email to ${user.email}`);
-        break;
-      case 'toggle':
-        alert(`Toggled status for ${user.first_name} ${user.last_name}`);
-        break;
-    }
-  };
-
   const SortIcon = ({ column }: { column: FilterOptions['sortBy'] }) => {
     if (filters.sortBy !== column) return null;
     return filters.sortOrder === 'asc' ? 
@@ -164,14 +140,7 @@ export const UserTable: React.FC<UserTableProps> = ({
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <UserActions
-                        user={user}
-                        onView={(user) => handleUserAction('view', user)}
-                        onEdit={(user) => handleUserAction('edit', user)}
-                        onDelete={(user) => handleUserAction('delete', user)}
-                        onSendEmail={(user) => handleUserAction('email', user)}
-                        onToggleStatus={(user) => handleUserAction('toggle', user)}
-                      />
+                      <UserActions user={user} />
                     </td>
                   </tr>
                 ))
@@ -198,7 +167,7 @@ export const UserTable: React.FC<UserTableProps> = ({
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div>
-                    <div className="font-medium text-secondary-900 dark:text-white">
+                    <div className="text-sm font-medium text-secondary-900 dark:text-white">
                       {user.first_name} {user.last_name}
                     </div>
                     <div className="text-sm text-secondary-500 dark:text-secondary-400">
@@ -206,21 +175,14 @@ export const UserTable: React.FC<UserTableProps> = ({
                     </div>
                   </div>
                 </div>
-                <UserActions
-                  user={user}
-                  onView={(user) => handleUserAction('view', user)}
-                  onEdit={(user) => handleUserAction('edit', user)}
-                  onDelete={(user) => handleUserAction('delete', user)}
-                  onSendEmail={(user) => handleUserAction('email', user)}
-                  onToggleStatus={(user) => handleUserAction('toggle', user)}
-                />
+                <UserActions user={user} />
               </div>
               <div className="space-y-2">
-                <div className="flex items-center space-x-2 text-sm">
+                <div className="flex items-center space-x-2">
                   <Mail className="w-4 h-4 text-secondary-400" />
-                  <span className="text-secondary-600 dark:text-secondary-400">{user.email}</span>
+                  <span className="text-sm text-secondary-600 dark:text-secondary-400">{user.email}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
                   <Badge variant="success" size="sm">
                     Active
                   </Badge>

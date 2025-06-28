@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import {  User, Shield, Bell, Palette, Database, Globe } from 'lucide-react';
+import { User, Shield, Bell, Palette, Database, Globe } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { Select } from '../components/ui/Select';
 import { Tooltip } from '../components/ui/Tooltip';
+import { SettingsSection, SettingsCard, SettingsTab } from '../components/settings';
 import { useTheme } from '../hooks/useTheme';
 
 export const Settings: React.FC = () => {
@@ -18,158 +20,141 @@ export const Settings: React.FC = () => {
     { id: 'regional', name: 'Regional', icon: Globe },
   ];
 
+  const themeOptions = [
+    { value: 'light', label: 'Light' },
+    { value: 'dark', label: 'Dark' },
+    { value: 'system', label: 'System' },
+  ];
+
+  const languageOptions = [
+    { value: 'en', label: 'English' },
+    { value: 'es', label: 'Spanish' },
+    { value: 'fr', label: 'French' },
+  ];
+
+  const renderProfileTab = () => (
+    <SettingsSection title="Profile Information">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="First Name" placeholder="John" />
+        <Input label="Last Name" placeholder="Smith" />
+        <Input label="Email" placeholder="john@example.com" type="email" />
+        <Input label="Phone" placeholder="+1 (555) 123-4567" />
+      </div>
+      <Tooltip content="Mock feature - Save profile changes">
+        <Button>Save Changes</Button>
+      </Tooltip>
+    </SettingsSection>
+  );
+
+  const renderSecurityTab = () => (
+    <SettingsSection title="Security Settings">
+      <div className="flex gap-4">
+        <Tooltip content="Mock feature - Change password">
+          <Button variant="outline">Change Password</Button>
+        </Tooltip>
+        <Tooltip content="Mock feature - Enable 2FA">
+          <Button variant="outline">Enable Two-Factor Authentication</Button>
+        </Tooltip>
+        <Tooltip content="Mock feature - View login history">
+          <Button variant="outline">View Login History</Button>
+        </Tooltip>
+      </div>
+    </SettingsSection>
+  );
+
+  const renderNotificationsTab = () => (
+    <SettingsSection title="Notification Preferences">
+      <div className="space-y-4">
+        <SettingsCard
+          title="Email Notifications"
+          description="Receive notifications via email"
+          action={
+            <Tooltip content="Mock feature - Toggle email notifications">
+              <Button variant="outline" size="sm">Enable</Button>
+            </Tooltip>
+          }
+        />
+        <SettingsCard
+          title="Push Notifications"
+          description="Receive push notifications"
+          action={
+            <Tooltip content="Mock feature - Toggle push notifications">
+              <Button variant="outline" size="sm">Disable</Button>
+            </Tooltip>
+          }
+        />
+      </div>
+    </SettingsSection>
+  );
+
+  const renderAppearanceTab = () => (
+    <SettingsSection title="Appearance Settings">
+      <div className="space-y-4">
+        <Select
+          label="Theme"
+          options={themeOptions}
+          value={theme}
+          onChange={(e) => setTheme(e.target.value as any)}
+          className="w-64"
+        />
+        <Tooltip content="Mock feature - Language selection">
+          <Select
+            label="Language"
+            options={languageOptions}
+            className="w-64"
+          />
+        </Tooltip>
+      </div>
+    </SettingsSection>
+  );
+
+  const renderDataTab = () => (
+    <SettingsSection title="Data & Privacy">
+      <div className="flex gap-4">
+        <Tooltip content="Mock feature - Export data">
+          <Button variant="outline">Export My Data</Button>
+        </Tooltip>
+        <Tooltip content="Mock feature - Delete account">
+          <Button variant="outline">Delete Account</Button>
+        </Tooltip>
+      </div>
+    </SettingsSection>
+  );
+
+  const renderRegionalTab = () => (
+    <SettingsSection title="Regional Settings">
+      <div className="flex gap-4">
+        <Tooltip content="Mock feature - Timezone selection">
+          <Button variant="outline">Change Timezone</Button>
+        </Tooltip>
+        <Tooltip content="Mock feature - Currency selection">
+          <Button variant="outline">Change Currency</Button>
+        </Tooltip>
+      </div>
+    </SettingsSection>
+  );
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'profile':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Profile Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input label="First Name" placeholder="John" />
-                <Input label="Last Name" placeholder="Smith" />
-                <Input label="Email" placeholder="john@example.com" type="email" />
-                <Input label="Phone" placeholder="+1 (555) 123-4567" />
-              </div>
-            </div>
-            <Tooltip content="Mock feature - Save profile changes">
-              <Button>Save Changes</Button>
-            </Tooltip>
-          </div>
-        );
-      
+        return renderProfileTab();
       case 'security':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Security Settings</h3>
-              <div className=' flex gap-4'>
-                <Tooltip content="Mock feature - Change password">
-                  <Button variant="outline">Change Password</Button>
-                </Tooltip>
-                <Tooltip content="Mock feature - Enable 2FA">
-                  <Button variant="outline">Enable Two-Factor Authentication</Button>
-                </Tooltip>
-                <Tooltip content="Mock feature - View login history">
-                  <Button variant="outline">View Login History</Button>
-                </Tooltip>
-              </div>
-            </div>
-          </div>
-        );
-      
+        return renderSecurityTab();
       case 'notifications':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Notification Preferences</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 border border-secondary-200 dark:border-secondary-700 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-secondary-900 dark:text-white">Email Notifications</h4>
-                    <p className="text-sm text-secondary-600 dark:text-secondary-400">Receive notifications via email</p>
-                  </div>
-                  <Tooltip content="Mock feature - Toggle email notifications">
-                    <Button variant="outline" size="sm">Enable</Button>
-                  </Tooltip>
-                </div>
-                <div className="flex items-center justify-between p-4 border border-secondary-200 dark:border-secondary-700 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-secondary-900 dark:text-white">Push Notifications</h4>
-                    <p className="text-sm text-secondary-600 dark:text-secondary-400">Receive push notifications</p>
-                  </div>
-                  <Tooltip content="Mock feature - Toggle push notifications">
-                    <Button variant="outline" size="sm">Disable</Button>
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      
+        return renderNotificationsTab();
       case 'appearance':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Appearance Settings</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                    Theme
-                  </label>
-                  <select 
-                    value={theme}
-                    onChange={(e) => setTheme(e.target.value as any)}
-                    className="w-64 px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800 text-secondary-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  >
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                    <option value="system">System</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                    Language
-                  </label>
-                  <Tooltip content="Mock feature - Language selection">
-                    <select 
-                      className="w-64 px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800 text-secondary-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                    >
-                      <option>English</option>
-                      <option>Spanish</option>
-                      <option>French</option>
-                    </select>
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      
+        return renderAppearanceTab();
       case 'data':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Data & Privacy</h3>
-              <div className=' flex gap-4'>
-                <Tooltip content="Mock feature - Export data">
-                  <Button variant="outline">Export My Data</Button>
-                </Tooltip>
-                <Tooltip content="Mock feature - Delete account">
-                  <Button variant="outline">Delete Account</Button>
-                </Tooltip>
-              </div>
-            </div>
-          </div>
-        );
-      
+        return renderDataTab();
       case 'regional':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Regional Settings</h3>
-              <div className=' flex gap-4'>
-                <Tooltip content="Mock feature - Timezone selection">
-                  <Button variant="outline">Change Timezone</Button>
-                </Tooltip>
-                <Tooltip content="Mock feature - Currency selection">
-                  <Button variant="outline">Change Currency</Button>
-                </Tooltip>
-              </div>
-            </div>
-          </div>
-        );
-      
+        return renderRegionalTab();
       default:
         return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Settings</h3>
-              <p className="text-secondary-600 dark:text-secondary-400">
-                This is a mock settings page. In a real application, you would be able to configure various settings here.
-              </p>
-            </div>
-          </div>
+          <SettingsSection title="Settings">
+            <p className="text-secondary-600 dark:text-secondary-400">
+              This is a mock settings page. In a real application, you would be able to configure various settings here.
+            </p>
+          </SettingsSection>
         );
     }
   };
@@ -191,20 +176,14 @@ export const Settings: React.FC = () => {
         <div className="border-b border-secondary-200 dark:border-secondary-700">
           <nav className="flex flex-wrap gap-1 px-6">
             {tabs.map((tab) => (
-              <button
+              <SettingsTab
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`
-                  flex items-center py-3 px-4 border-b-2 font-medium text-sm transition-all duration-200 rounded-t-lg
-                  ${activeTab === tab.id
-                    ? 'border-primary-500 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
-                    : 'border-transparent text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700/50'
-                  }
-                `}
-              >
-                <tab.icon className="w-4 h-4 mr-2" />
-                {tab.name}
-              </button>
+                id={tab.id}
+                name={tab.name}
+                icon={tab.icon}
+                isActive={activeTab === tab.id}
+                onClick={setActiveTab}
+              />
             ))}
           </nav>
         </div>
