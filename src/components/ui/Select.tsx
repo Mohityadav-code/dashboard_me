@@ -14,7 +14,7 @@ export const Select: React.FC<SelectProps> = ({
   ...props
 }) => {
   return (
-    <div className="w-full">
+    <div className={className || "w-full"}>
       {label && (
         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
           {label}
@@ -29,7 +29,6 @@ export const Select: React.FC<SelectProps> = ({
             ? 'border-red-300 dark:border-red-600 focus:ring-red-500 focus:border-red-500' 
             : 'border-secondary-300 dark:border-secondary-600'
           }
-          ${className}
         `}
         {...props}
       >
