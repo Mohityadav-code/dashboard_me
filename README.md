@@ -160,17 +160,53 @@ All styles are built with Tailwind CSS. Custom styles can be added in:
 
 ## 🧪 Testing
 
-The project includes testing setup with:
+The project includes comprehensive testing setup with:
 - **Vitest**: Fast unit testing framework
 - **React Testing Library**: Component testing utilities
-- **Jest DOM**: Custom DOM matchers
+- **Jest DOM**: Custom DOM matchers for enhanced assertions
+
+### Test Coverage
+
+Currently, the following components have comprehensive test coverage:
+
+#### UI Components (`src/components/ui/__tests__/`)
+- **Button.test.tsx** (12 tests) - Tests all button variants, sizes, states, and interactions
+- **Card.test.tsx** (11 tests) - Tests card rendering, styling, and ref forwarding
+- **Input.test.tsx** (13 tests) - Tests input types, validation, accessibility, and controlled inputs
+- **Tooltip.test.tsx** (10 tests) - Tests tooltip positioning, visibility, and complex content
+
+#### Test Features
+- **Component Rendering**: Verifies components render correctly with default and custom props
+- **User Interactions**: Tests click events, keyboard events, and form interactions
+- **Accessibility**: Ensures proper ARIA attributes and keyboard navigation
+- **Styling**: Validates CSS classes and responsive behavior
+- **Ref Forwarding**: Tests ref forwarding for DOM manipulation
+- **Error States**: Verifies error handling and validation states
 
 ### Running Tests
 ```bash
 npm test          # Run tests in watch mode
-npm run test:run  # Run tests once
-npm run test:ui   # Run tests with UI
+npm run test:run  # Run tests once (46 tests total)
+npm run test:ui   # Run tests with UI interface
 ```
+
+### Test Structure
+```
+src/
+├── components/ui/__tests__/    # UI component tests
+│   ├── Button.test.tsx         # Button component tests
+│   ├── Card.test.tsx           # Card component tests
+│   ├── Input.test.tsx          # Input component tests
+│   └── Tooltip.test.tsx        # Tooltip component tests
+└── test/                       # Test configuration
+    ├── setup.ts               # Test setup and configuration
+    └── types.d.ts             # TypeScript declarations for test matchers
+```
+
+### Test Configuration
+- **Setup**: `src/test/setup.ts` - Configures testing environment
+- **Types**: `src/test/types.d.ts` - Extends expect interface with custom matchers
+- **Coverage**: Tests focus on component behavior, user interactions, and accessibility
 
 ## 📱 Responsive Design
 
