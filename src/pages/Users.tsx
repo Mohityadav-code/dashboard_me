@@ -13,6 +13,7 @@ export const Users: React.FC = () => {
     filters,
     goToPage,
     updateFilters,
+    updatePerPage,
     refresh
   } = useUsers();
 
@@ -43,14 +44,18 @@ export const Users: React.FC = () => {
         error={error}
         filters={filters}
         onFiltersChange={updateFilters}
+        itemsPerPage={pagination.per_page}
       />
 
-      {/* Pagination */}
+      {/* Pagination - Always show if not loading and no error */}
       {!loading && !error && (
         <UserPagination
           currentPage={pagination.page}
           totalPages={pagination.total_pages}
+          totalItems={pagination.total}
+          itemsPerPage={pagination.per_page}
           onPageChange={goToPage}
+          onPerPageChange={updatePerPage}
           loading={loading}
         />
       )}

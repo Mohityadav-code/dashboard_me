@@ -8,7 +8,7 @@ export const useUsers = () => {
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState({
     page: 1,
-    per_page: 6,
+    per_page: 5,
     total: 0,
     total_pages: 0,
   });
@@ -22,22 +22,26 @@ export const useUsers = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiService.getUsers(page, pagination.per_page);
+      
+      // Always fetch 50 users to have enough data for pagination
+      const response = await apiService.getUsers(page, 50);
+      
       setUsers(response.data);
-      setPagination({
+      setPagination(prev => ({
         page: response.page,
-        per_page: response.per_page,
+        per_page: prev.per_page,
         total: response.total,
-        total_pages: response.total_pages,
-      });
+        total_pages: Math.ceil(response.total / prev.per_page),
+      }));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch users');
     } finally {
       setLoading(false);
     }
-  }, [pagination.per_page]);
+  }, []);
 
-  const filteredUsers = users.filter(user => {
+  // Filter and sort users
+  const filteredAndSortedUsers = users.filter(user => {
     const searchTerm = filters.search.toLowerCase();
     const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
     return fullName.includes(searchTerm) || user.email.toLowerCase().includes(searchTerm);
@@ -69,16 +73,41 @@ export const useUsers = () => {
     }
   });
 
+  // Calculate pagination for filtered results
+  const currentPagination = {
+    page: pagination.page,
+    per_page: pagination.per_page,
+    total: filteredAndSortedUsers.length,
+    total_pages: Math.max(1, Math.ceil(filteredAndSortedUsers.length / pagination.per_page)),
+  };
+
+  // Get current page users
+  const currentPageUsers = filteredAndSortedUsers.slice(
+    (pagination.page - 1) * pagination.per_page,
+    pagination.page * pagination.per_page
+  );
+
   useEffect(() => {
     fetchUsers(1);
   }, [fetchUsers]);
 
   const goToPage = (page: number) => {
-    fetchUsers(page);
+    setPagination(prev => ({ ...prev, page }));
   };
 
   const updateFilters = (newFilters: Partial<FilterOptions>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
+    // Reset to first page when filters change
+    setPagination(prev => ({ ...prev, page: 1 }));
+  };
+
+  const updatePerPage = (perPage: number) => {
+    setPagination(prev => ({ 
+      ...prev, 
+      per_page: perPage,
+      page: 1, // Reset to first page when changing per_page
+      total_pages: Math.max(1, Math.ceil(prev.total / perPage))
+    }));
   };
 
   const refresh = () => {
@@ -86,13 +115,14 @@ export const useUsers = () => {
   };
 
   return {
-    users: filteredUsers,
+    users: currentPageUsers,
     loading,
     error,
-    pagination,
+    pagination: currentPagination,
     filters,
     goToPage,
     updateFilters,
+    updatePerPage,
     refresh,
   };
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MoreHorizontal, Edit, Trash2, Eye, UserCheck, UserX, Mail } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { Tooltip } from '../ui/Tooltip';
 import type { User } from '../../types';
 
 interface UserActionsProps {
@@ -22,21 +23,50 @@ export const UserActions: React.FC<UserActionsProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleAction = (action: () => void) => {
+  const handleAction = (action: () => void, isMock: boolean = false) => {
+    if (isMock) {
+      alert(`This is a mock feature. In a real application, this would ${action.name || 'perform the action'}.`);
+      setIsOpen(false);
+      return;
+    }
     action();
     setIsOpen(false);
   };
 
+  const mockView = () => {
+    alert(`Viewing details for ${user.first_name} ${user.last_name} (${user.email})`);
+  };
+
+  const mockEdit = () => {
+    alert(`Editing user: ${user.first_name} ${user.last_name}`);
+  };
+
+  const mockSendEmail = () => {
+    alert(`Sending email to ${user.email}`);
+  };
+
+  const mockToggleStatus = () => {
+    alert(`Toggling status for ${user.first_name} ${user.last_name}`);
+  };
+
+  const mockDelete = () => {
+    if (confirm(`Are you sure you want to delete ${user.first_name} ${user.last_name}?`)) {
+      alert(`User ${user.first_name} ${user.last_name} would be deleted in a real application.`);
+    }
+  };
+
   return (
     <div className="relative">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-8 h-8 p-0"
-      >
-        <MoreHorizontal className="w-4 h-4" />
-      </Button>
+      <Tooltip content="User actions">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-8 h-8 p-0"
+        >
+          <MoreHorizontal className="w-4 h-4" />
+        </Button>
+      </Tooltip>
 
       {isOpen && (
         <>
@@ -48,57 +78,57 @@ export const UserActions: React.FC<UserActionsProps> = ({
           
           {/* Dropdown Menu */}
           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-secondary-800 rounded-lg shadow-lg border border-secondary-200 dark:border-secondary-700 py-1 z-20">
-            {onView && (
+            <Tooltip content="Mock feature - View user details">
               <button
-                onClick={() => handleAction(() => onView(user))}
+                onClick={() => handleAction(mockView, true)}
                 className="w-full flex items-center px-3 py-2 text-sm text-secondary-700 dark:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700 transition-colors"
               >
                 <Eye className="w-4 h-4 mr-2" />
                 View Details
               </button>
-            )}
+            </Tooltip>
             
-            {onEdit && (
+            <Tooltip content="Mock feature - Edit user">
               <button
-                onClick={() => handleAction(() => onEdit(user))}
+                onClick={() => handleAction(mockEdit, true)}
                 className="w-full flex items-center px-3 py-2 text-sm text-secondary-700 dark:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700 transition-colors"
               >
                 <Edit className="w-4 h-4 mr-2" />
                 Edit User
               </button>
-            )}
+            </Tooltip>
             
-            {onSendEmail && (
+            <Tooltip content="Mock feature - Send email">
               <button
-                onClick={() => handleAction(() => onSendEmail(user))}
+                onClick={() => handleAction(mockSendEmail, true)}
                 className="w-full flex items-center px-3 py-2 text-sm text-secondary-700 dark:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700 transition-colors"
               >
                 <Mail className="w-4 h-4 mr-2" />
                 Send Email
               </button>
-            )}
+            </Tooltip>
             
-            {onToggleStatus && (
+            <Tooltip content="Mock feature - Toggle user status">
               <button
-                onClick={() => handleAction(() => onToggleStatus(user))}
+                onClick={() => handleAction(mockToggleStatus, true)}
                 className="w-full flex items-center px-3 py-2 text-sm text-secondary-700 dark:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700 transition-colors"
               >
                 <UserCheck className="w-4 h-4 mr-2" />
                 Toggle Status
               </button>
-            )}
+            </Tooltip>
             
             <hr className="my-1 border-secondary-200 dark:border-secondary-700" />
             
-            {onDelete && (
+            <Tooltip content="Mock feature - Delete user">
               <button
-                onClick={() => handleAction(() => onDelete(user))}
+                onClick={() => handleAction(mockDelete, true)}
                 className="w-full flex items-center px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
               >
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete User
               </button>
-            )}
+            </Tooltip>
           </div>
         </>
       )}

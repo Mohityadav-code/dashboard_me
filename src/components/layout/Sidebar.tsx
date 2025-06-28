@@ -13,6 +13,7 @@ import {
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
+  onNavigate: (path: string) => void;
 }
 
 const navigation = [
@@ -23,7 +24,7 @@ const navigation = [
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle, onNavigate }) => {
   return (
     <>
       {/* Mobile overlay */}
@@ -74,7 +75,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                       : 'text-secondary-600 dark:text-secondary-400 hover:bg-secondary-50 dark:hover:bg-secondary-800 hover:text-secondary-900 dark:hover:text-secondary-200'
                     }
                   `}
-                  onClick={() => window.innerWidth < 1024 && onToggle()}
+                  onClick={() => {
+                    onNavigate(item.href);
+                    if (window.innerWidth < 1024) {
+                      onToggle();
+                    }
+                  }}
                 >
                   <item.icon className="w-5 h-5 mr-3" />
                   {item.name}

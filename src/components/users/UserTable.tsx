@@ -4,6 +4,7 @@ import { Card } from '../ui/Card';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { Badge } from '../ui/Badge';
 import { UserActions } from './UserActions';
+import { UserTableSkeleton } from '../ui/Skeleton';
 import { 
   ChevronUp, 
   ChevronDown, 
@@ -17,6 +18,7 @@ interface UserTableProps {
   error: string | null;
   filters: FilterOptions;
   onFiltersChange: (filters: Partial<FilterOptions>) => void;
+  itemsPerPage?: number;
 }
 
 export const UserTable: React.FC<UserTableProps> = ({
@@ -24,7 +26,8 @@ export const UserTable: React.FC<UserTableProps> = ({
   loading,
   error,
   filters,
-  onFiltersChange
+  onFiltersChange,
+  itemsPerPage = 5
 }) => {
   const handleSort = (sortBy: FilterOptions['sortBy']) => {
     const newSortOrder = filters.sortBy === sortBy && filters.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -69,6 +72,10 @@ export const UserTable: React.FC<UserTableProps> = ({
         <p className="text-secondary-600 dark:text-secondary-400">{error}</p>
       </Card>
     );
+  }
+
+  if (loading) {
+    return <UserTableSkeleton rows={itemsPerPage} />;
   }
 
   return (
@@ -119,16 +126,7 @@ export const UserTable: React.FC<UserTableProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-secondary-200 dark:divide-secondary-700">
-              {loading ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-8">
-                    <div className="flex items-center justify-center space-x-2">
-                      <LoadingSpinner />
-                      <span className="text-secondary-500 dark:text-secondary-400">Loading users...</span>
-                    </div>
-                  </td>
-                </tr>
-              ) : users.length === 0 ? (
+              {users.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-secondary-500 dark:text-secondary-400">
                     No users found
@@ -187,52 +185,47 @@ export const UserTable: React.FC<UserTableProps> = ({
 
       {/* Mobile Cards */}
       <div className="md:hidden divide-y divide-secondary-200 dark:divide-secondary-700">
-        {loading ? (
-          <div className="p-6 flex items-center justify-center space-x-2">
-            <LoadingSpinner />
-            <span className="text-secondary-500 dark:text-secondary-400">Loading users...</span>
-          </div>
-        ) : users.length === 0 ? (
+        {users.length === 0 ? (
           <div className="p-6 text-center text-secondary-500 dark:text-secondary-400">
             No users found
           </div>
         ) : (
           users.map((user) => (
             <div key={user.id} className="p-4">
-              <div className="flex items-center space-x-3 mb-3">
-                <img
-                  src={user.avatar}
-                  alt={`${user.first_name} ${user.last_name}`}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-secondary-900 dark:text-white">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={user.avatar}
+                    alt={`${user.first_name} ${user.last_name}`}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="font-medium text-secondary-900 dark:text-white">
                       {user.first_name} {user.last_name}
-                    </h3>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="success" size="sm">
-                        Active
-                      </Badge>
-                      <UserActions
-                        user={user}
-                        onView={(user) => handleUserAction('view', user)}
-                        onEdit={(user) => handleUserAction('edit', user)}
-                        onDelete={(user) => handleUserAction('delete', user)}
-                        onSendEmail={(user) => handleUserAction('email', user)}
-                        onToggleStatus={(user) => handleUserAction('toggle', user)}
-                      />
+                    </div>
+                    <div className="text-sm text-secondary-500 dark:text-secondary-400">
+                      User #{user.id}
                     </div>
                   </div>
-                  <p className="text-sm text-secondary-500 dark:text-secondary-400">
-                    ID: #{user.id}
-                  </p>
                 </div>
+                <UserActions
+                  user={user}
+                  onView={(user) => handleUserAction('view', user)}
+                  onEdit={(user) => handleUserAction('edit', user)}
+                  onDelete={(user) => handleUserAction('delete', user)}
+                  onSendEmail={(user) => handleUserAction('email', user)}
+                  onToggleStatus={(user) => handleUserAction('toggle', user)}
+                />
               </div>
-              <div className="flex items-center space-x-4 text-sm text-secondary-600 dark:text-secondary-400">
-                <div className="flex items-center space-x-1">
-                  <Mail className="w-4 h-4" />
-                  <span>{user.email}</span>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2 text-sm">
+                  <Mail className="w-4 h-4 text-secondary-400" />
+                  <span className="text-secondary-600 dark:text-secondary-400">{user.email}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <Badge variant="success" size="sm">
+                    Active
+                  </Badge>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DivideIcon as LucideIcon } from 'lucide-react';
 import { Card } from '../ui/Card';
-import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { Skeleton } from '../ui/Skeleton';
 
 interface StatsCardProps {
   title: string;
@@ -38,9 +38,9 @@ export const StatsCard: React.FC<StatsCardProps> = ({
             {title}
           </p>
           {loading ? (
-            <div className="flex items-center space-x-2">
-              <LoadingSpinner size="sm" />
-              <span className="text-secondary-400">Loading...</span>
+            <div className="space-y-2">
+              <Skeleton className="h-8 w-20" />
+              <Skeleton className="h-4 w-24" />
             </div>
           ) : (
             <>
