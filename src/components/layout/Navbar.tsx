@@ -125,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSidebarToggle, onNavigate }) =
                 </div>
                 <div className="px-4 py-6 text-center">
                   <Bell className="w-8 h-8 mx-auto text-secondary-400 mb-2" />
-                  <p className="text-sm text-secondary-600 dark:text-secondary-400">No new notifications</p>
+                  <p className="text-sm text-secondary-600 dark:text-secondary-400 lg:whitespace-nowrap">No new notifications</p>
                 </div>
               </div>
             )}

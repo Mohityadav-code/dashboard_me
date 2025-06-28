@@ -3,9 +3,11 @@ import { Settings as SettingsIcon, User, Shield, Bell, Palette, Database, Globe 
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Tooltip } from '../components/ui/Tooltip';
+import { useTheme } from '../hooks/useTheme';
 
 export const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
+  const { theme, setTheme } = useTheme();
 
   const tabs = [
     { id: 'profile', name: 'Profile', icon: User },
@@ -41,7 +43,7 @@ export const Settings: React.FC = () => {
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Security Settings</h3>
-              <div className="space-y-4">
+              <div className=' flex gap-4'>
                 <Tooltip content="Mock feature - Change password">
                   <Button variant="outline">Change Password</Button>
                 </Tooltip>
@@ -95,26 +97,64 @@ export const Settings: React.FC = () => {
                   <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                     Theme
                   </label>
-                  <Tooltip content="Mock feature - Theme selection">
-                    <select className="w-full px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800">
-                      <option>Light</option>
-                      <option>Dark</option>
-                      <option>System</option>
-                    </select>
-                  </Tooltip>
+                  <select 
+                    value={theme}
+                    onChange={(e) => setTheme(e.target.value as any)}
+                    className="w-64 px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800 text-secondary-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  >
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="system">System</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                     Language
                   </label>
                   <Tooltip content="Mock feature - Language selection">
-                    <select className="w-full px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800">
+                    <select 
+                      className="w-64 px-3 py-2 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800 text-secondary-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    >
                       <option>English</option>
                       <option>Spanish</option>
                       <option>French</option>
                     </select>
                   </Tooltip>
                 </div>
+              </div>
+            </div>
+          </div>
+        );
+      
+      case 'data':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Data & Privacy</h3>
+              <div className=' flex gap-4'>
+                <Tooltip content="Mock feature - Export data">
+                  <Button variant="outline">Export My Data</Button>
+                </Tooltip>
+                <Tooltip content="Mock feature - Delete account">
+                  <Button variant="outline">Delete Account</Button>
+                </Tooltip>
+              </div>
+            </div>
+          </div>
+        );
+      
+      case 'regional':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">Regional Settings</h3>
+              <div className=' flex gap-4'>
+                <Tooltip content="Mock feature - Timezone selection">
+                  <Button variant="outline">Change Timezone</Button>
+                </Tooltip>
+                <Tooltip content="Mock feature - Currency selection">
+                  <Button variant="outline">Change Currency</Button>
+                </Tooltip>
               </div>
             </div>
           </div>
@@ -149,16 +189,16 @@ export const Settings: React.FC = () => {
       <div className="bg-white dark:bg-secondary-800 rounded-xl shadow-sm border border-secondary-200 dark:border-secondary-700">
         {/* Tabs */}
         <div className="border-b border-secondary-200 dark:border-secondary-700">
-          <nav className="flex space-x-8 px-6">
+          <nav className="flex flex-wrap gap-1 px-6">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-colors
+                  flex items-center py-3 px-4 border-b-2 font-medium text-sm transition-all duration-200 rounded-t-lg
                   ${activeTab === tab.id
-                    ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                    : 'border-transparent text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300'
+                    ? 'border-primary-500 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                    : 'border-transparent text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700/50'
                   }
                 `}
               >
